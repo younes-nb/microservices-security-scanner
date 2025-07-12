@@ -8,6 +8,7 @@ from src.orchestrator.scanner_orchestrator import ScannerOrchestrator
 from src.gui.editor_window import EditorWindow
 from src.orchestrator import model_generator
 from src.run.generate_csv import write_csv_all
+from dotenv import load_dotenv
 
 class ScannerApp(tk.Tk):
     def __init__(self):
@@ -100,7 +101,11 @@ class ScannerApp(tk.Tk):
             )
             self.log(f"--- STAGE 4: Scanning the Model and Running Predictions ---")
             write_csv_all()
-            rscript_executable = r"C:\Program Files\R\R-4.5.1\bin\Rscript.exe"
+            rscript_executable = os.getenv("RSCRIPT_PATH")
+            if not rscript_executable:
+                self.log("FATAL ERROR: RSCRIPT_PATH is not defined in your .env file.")
+                self.prediction_finished()
+                return
             project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
             prediction_dir = os.path.join(project_root, "src", "prediction")
             r_scripts = [
