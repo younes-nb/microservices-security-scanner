@@ -87,7 +87,7 @@ The application needs to know where to find your R installation.
 Once all the setup steps are complete, you can run the application from the root directory of the project.
 
 ```bash
-python main.py
+python src/main.py
 ```
 
 This will launch the GUI. From there, you can browse to your target microservice project folder and start the scan.
